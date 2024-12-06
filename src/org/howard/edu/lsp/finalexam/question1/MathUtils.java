@@ -1,65 +1,51 @@
-
 package org.howard.edu.lsp.finalexam.question1;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-public class MathUtilsTest {
-
-    MathUtils mathUtils = new MathUtils();
-
-    // Test for factorial method
-    @Test
-    public void testFactorial_Zero() {
-        assertEquals(1, mathUtils.factorial(0), "Factorial of 0 should be 1");
+public class MathUtils {
+    /**
+     * Returns the factorial of a given non-negative integer.
+     * If the input is negative, throws IllegalArgumentException.
+     */
+    public int factorial(int n) {
+        if (n < 0) {
+            throw new IllegalArgumentException("Number must be non-negative");
+        }
+        if (n == 0 || n == 1) {
+            return 1;
+        }
+        return n * factorial(n - 1);
     }
 
-    @Test
-    public void testFactorial_PositiveNumber() {
-        assertEquals(120, mathUtils.factorial(5), "Factorial of 5 should be 120");
+    /**
+     * Returns true if the given number is a prime number, false otherwise.
+     */
+    public boolean isPrime(int n) {
+        if (n <= 1) return false;
+        for (int i = 2; i <= Math.sqrt(n); i++) {
+            if (n % i == 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    @Test
-    public void testFactorial_NegativeInput() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            mathUtils.factorial(-1);
-        });
-        assertEquals("Number must be non-negative", exception.getMessage());
-    }
-
-    // Test for isPrime method
-    @Test
-    public void testIsPrime_PrimeNumber() {
-        assertTrue(mathUtils.isPrime(7), "7 should be a prime number");
-    }
-
-    @Test
-    public void testIsPrime_NotPrime() {
-        assertFalse(mathUtils.isPrime(4), "4 should not be a prime number");
-    }
-
-    @Test
-    public void testIsPrime_LessThanOrEqualToOne() {
-        assertFalse(mathUtils.isPrime(1), "1 should not be considered a prime number");
-        assertFalse(mathUtils.isPrime(0), "0 should not be considered a prime number");
-    }
-
-    // Test for gcd method
-    @Test
-    public void testGcd_NonZeroNumbers() {
-        assertEquals(6, mathUtils.gcd(54, 24), "GCD of 54 and 24 should be 6");
-    }
-
-    @Test
-    public void testGcd_OneZeroInput() {
-        assertEquals(5, mathUtils.gcd(5, 0), "GCD of 5 and 0 should be 5");
-    }
-
-    @Test
-    public void testGcd_BothZeroInput() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            mathUtils.gcd(0, 0);
-        });
-        assertEquals("Both numbers cannot be zero", exception.getMessage());
+    /**
+     * Returns the greatest common divisor (GCD) of two integers using the
+     * Euclidean algorithm. If either input is zero, returns the absolute
+     * value of the non-zero input. If both inputs are zero, throws
+     * IllegalArgumentException.
+     */
+    public int gcd(int a, int b) {
+        if (a == 0 && b == 0) {
+            throw new IllegalArgumentException("Both numbers cannot be zero");
+        }
+        a = Math.abs(a);
+        b = Math.abs(b);
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
     }
 }
+
